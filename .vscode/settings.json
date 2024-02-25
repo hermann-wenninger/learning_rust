@@ -1,0 +1,6 @@
+{
+    "DockerRun.DisableDockerrc": true,
+    "rust-analyzer.linkedProjects": [
+        ".\\cap_0\\Cargo.toml"
+    ]
+}
