@@ -1,46 +1,70 @@
-use std::io::{self, BufRead};
-use std::net::{TcpListener, TcpStream};
-use std::thread;
+use actix_web::{web, App, HttpServer, HttpResponse, Responder};
+use actix_web::middleware::Logger;
+use actix_web_actors::ws;
+use tungstenite::protocol::Message;
 
-fn handle_client(stream: TcpStream) {
-    let mut reader = io::BufReader::new(&stream);
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    Logger::env_logger::init(); // Initialize the logger
 
-    loop {
-        let mut input = String::new();
-        let bytes_read = reader.read_line(&mut input).expect("Failed to read from client");
+    HttpServer::new(|| {
+        App::new()
+            .wrap(Logger::default())
+            .service(web::resource("/").route(web::get().to(index)))
+            .service(web::resource("/websocket/").route(web::get().to(websocket_handler)))
+    })
+    .bind("127.0.0.1:8077")?
+    .run()
+    .await
+}
 
-        if bytes_read == 0 {
-            break;
-        }
+// Index handler
+async fn index() -> impl Responder {
+    HttpResponse::Ok().body("Hello, Actix!")
+}
 
-        println!("Received mouse coordinates: {}", input.trim());
-        // Hier können Sie die erhaltenen Koordinaten weiterverarbeiten
+// WebSocket handler
+async fn websocket_handler(req: actix_web::HttpRequest, stream: web::Payload) -> Result<HttpResponse, actix_web::Error> {
+    let ws = ws::start(WebsocketSession {}, &req, stream);
+    ws.map(|_| HttpResponse::Ok())
+}
 
-        // Beispiel: Koordinaten an andere Funktion übergeben
-        process_coordinates(input.trim());
+// WebSocket session handler
+struct WebsocketSession;
+
+impl ws::Actor for WebsocketSession {
+    type Context = ws::WebsocketContext<Self>;
+
+    fn started(&mut self, ctx: &mut Self::Context) {
+        // WebSocket session started
+        println!("WebSocket session started: {:?}", ctx.address());
     }
 }
 
-fn process_coordinates(coordinates: &str) {
-    // Hier können Sie die Mauskoordinaten weiterverarbeiten, z.B. in Ihrem Spiel verwenden
-    println!("Processing coordinates: {}", coordinates);
-}
+impl ws::Handler for WebsocketSession {
+    fn handle(&mut self, msg: ws::Message, ctx: &mut Self::Context) {
+        match msg {
+            ws::Message::Ping(ping) => ctx.pong(&ping),
+            ws::Message::Pong(_) => (),
+            ws::Message::Text(text) => {
+                // Handle text messages (modify this part based on your needs)
+                println!("Received text message: {}", text);
 
-fn main() -> io::Result<()> {
-    let listener = TcpListener::bind("127.0.0.1:8077")?;
+                // Echo the message back to the client
+                ctx.text(text);
+            }
+            ws::Message::Binary(bin) => {
+                // Handle binary messages (modify this part based on your needs)
+                println!("Received binary message: {:?}", bin);
 
-    for stream in listener.incoming() {
-        match stream {
-            Ok(stream) => {
-                thread::spawn(|| {
-                    handle_client(stream);
-                });
+                // Echo the message back to the client
+                ctx.binary(bin);
             }
-            Err(e) => {
-                eprintln!("Error accepting connection: {}", e);
+            ws::Message::Close(_) => {
+                // Handle WebSocket connection closure
+                ctx.stop();
             }
+            _ => (),
         }
     }
-
-    Ok(())
 }
