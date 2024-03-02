@@ -1,16 +1,35 @@
-#![doc(html_playground_url = "https://play.rust-lang.org/")]
-//! ```
-//! println!("Hello Wolrd and universe");
-//! ```
-
-use std::io;
+//Structures and Tupels
+struct Person{
+    name: String,
+    vname:String,
+    alter:u8,
+}   
+struct Tupelix (i8,f64,String);
+struct Point{
+    x:f64,
+    y:f64,
+    z:f64,
+}
+struct Cube{
+    hoehe:u32,
+    breite:u32,
+    tiefe:u32,
+}
+struct Cube_on_Point{
+    hoehe:u32,
+    breite:u32,
+    tiefe:u32,
+    position: Point,
+}
 fn main() {
-    println!("Rate eien zahl zwischen 0 und 100");
-
-    let mut guess = String::new();
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("fehler beim lesen");
-    println("SCHÄTZUNG ... {guess}")
-
+let nameintub = String::from_utf8("i am tub".into());
+let tub = Tupelix(22,7.87,nameintub.expect("REASON"));
+println!("{}..{}..{:#?}",tub.0,tub.1,&tub.2);
+let cube = Cube {hoehe:23, breite:44, tiefe:99};
+println!("h:{}----b:{}----t:{}",cube.hoehe,cube.breite,cube.tiefe);
+let from_cube = Cube{hoehe:1, breite:999, tiefe:123};
+println!("h:{}----b:{}----t:{}",from_cube.hoehe,from_cube.breite,from_cube.tiefe);
+let xyz = Point{x:1.1,y:2.2,z:3.3};
+let next_cube = Cube_on_Point{hoehe:1,breite:2,tiefe:3,position:xyz};
+println!("{}",next_cube.hoehe);
 }
