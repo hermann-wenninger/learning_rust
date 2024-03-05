@@ -5,6 +5,8 @@ struct Person{
     alter:u8,
 }   
 struct Tupelix (i8,f64,String);
+
+#[derive(Debug)]
 struct Point{
     x:f64,
     y:f64,
@@ -30,6 +32,8 @@ println!("h:{}----b:{}----t:{}",cube.hoehe,cube.breite,cube.tiefe);
 let from_cube = Cube{hoehe:1, breite:999, tiefe:123};
 println!("h:{}----b:{}----t:{}",from_cube.hoehe,from_cube.breite,from_cube.tiefe);
 let xyz = Point{x:1.1,y:2.2,z:3.3};
+
+println!("{:#?}",xyz);
 let next_cube = Cube_on_Point{hoehe:1,breite:2,tiefe:3,position:xyz};
-println!("{}",next_cube.hoehe);
+println!("cube höhe{}",next_cube.hoehe);
 }
