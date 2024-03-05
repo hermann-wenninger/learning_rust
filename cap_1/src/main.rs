@@ -2,6 +2,10 @@ fn ein_tupel(str:String)->(String, usize){
     let laenge = str.len();
     (str, laenge)
 }
+fn ein_tupel_von_ref(str:&String)->(String, usize){
+    //let laenge = str.len();
+    (str.to_string(), str.len())
+}
 
 fn gib_ownership()->String{
     let ein_string = String::from("ich komme aus einer funktion");
@@ -31,6 +35,24 @@ fn main() {
     println!("ich bin ein makro und habe die eigentümerschaft von: {}",wanderer);
     println!("ich bin ein makro und habe die eigentümerschaft von: {}",wanderer);
     println!("ich bin ein makro und habe die eigentümerschaft von: {}",wanderer);
-    let pull =  ein_tupel(wanderer);
-    println!("{} ---> und habe die länge {}",pull.0, pull.1);
+    let cloner =  ein_tupel(wanderer.clone());
+    println!("{} ---> und habe die länge {} cloning",cloner.0, cloner.1);
+    let borr = ein_tupel_von_ref(&wanderer);
+    println!("{} ---> und habe die länge {} borrowing",borr.0, borr.1);
+
+    //verändern einer variablen
+    let mut erneuerer = String::from("Heute arbeiten wir an:");
+    fn newbee(str: &mut String){
+        str.push_str(" veränderbaren referenzen");
+    }
+    newbee(&mut erneuerer);
+    println!("{:?}",erneuerer);
+
+    fn nicht_hängend () -> String {
+        let s = String::from("Hallo ich hänge nicht!");
+    
+        s
+    }
+    let oo = nicht_hängend();
+    println!("{}",oo);
 }
