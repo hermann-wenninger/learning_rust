@@ -17,7 +17,8 @@ struct Cube{
     breite:u32,
     tiefe:u32,
 }
-struct Cube_on_Point{
+#[derive(Debug)]
+struct CubeOnPoint{
     hoehe:u32,
     breite:u32,
     tiefe:u32,
@@ -34,6 +35,6 @@ println!("h:{}----b:{}----t:{}",from_cube.hoehe,from_cube.breite,from_cube.tiefe
 let xyz = Point{x:1.1,y:2.2,z:3.3};
 
 println!("{:#?}",xyz);
-let next_cube = Cube_on_Point{hoehe:1,breite:2,tiefe:3,position:xyz};
-println!("cube höhe{}",next_cube.hoehe);
+let next_cube = CubeOnPoint{hoehe:1,breite:2,tiefe:3,position: xyz};
+println!("cube  - {:#?}",next_cube);
 }
