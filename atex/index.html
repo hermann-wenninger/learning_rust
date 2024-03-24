@@ -5,20 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.6/Rx.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.js"></script>
-https://jsfiddle.net/rn
+
     <title>Document</title>
 </head>
 <body>
     
 </body>
 <script type="module">
-    import Rx from 'rxjs/Rx';
-Rx.Observable.fromEvent(document, 'keydown')
-  .map(e => e.key)
-  .subscribe(key => { console.log(key) })
-
-
-    var camera, scene, renderer;
+ var camera, scene, renderer;
 var geometry, material, mesh;
 
 init();
@@ -72,11 +66,12 @@ function init() {
   document.body.appendChild(renderer.domElement);
 
 }
-
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
+/*
+
 let vec = new THREE.Vector(0, 0, 0)
 for(let i = 0; i < 3; i++) {
   vec.add(new THREE.Vector(0, 0, 1))
@@ -112,5 +107,10 @@ function render() {
   )
   
 }
+   import Rx from 'rxjs/Rx';
+Rx.Observable.fromEvent(document, 'keydown')
+  .map(e => e.key)
+  .subscribe(key => { console.log(key) })
+  */
 </script>
 </html>
