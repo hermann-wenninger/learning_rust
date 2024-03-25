@@ -37,4 +37,42 @@ let xyz = Point{x:1.1,y:2.2,z:3.3};
 println!("{:#?}",xyz);
 let next_cube = CubeOnPoint{hoehe:1,breite:2,tiefe:3,position: xyz};
 println!("cube  - {:#?}",next_cube);
+type Frame{};
+trait NewTrait {
+     #[cfg(not(target_env = "gnu"))]
+     fn inline_context(&self) -> Option<DWORD>;
+
+     fn ip(&self) -> *mut c_void;
+
+     fn module_base_address(&self) -> Option<*mut c_void>;
+
+     fn sp(&self) -> *mut c_void;
+
+    fn symbol_address(&self) -> *mut c_void;
+}
+
+impl NewTrait for Frame {
+     fn ip(&self) -> *mut c_void {
+        self.ip
+    }
+    
+     fn sp(&self) -> *mut c_void {
+        self.sp
+    }
+    
+     fn symbol_address(&self) -> *mut c_void {
+        self.ip
+    }
+    
+     fn module_base_address(&self) -> Option<*mut c_void> {
+        Some(self.base_address)
+    }
+    
+    #[cfg(not(target_env = "gnu"))]
+     fn inline_context(&self) -> Option<DWORD> {
+        self.inline_context
+    }
+    }
+
+
 }
