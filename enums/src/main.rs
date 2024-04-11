@@ -56,4 +56,17 @@ fn main() {
     let x = Operations::Add;
     let er = x.run(21,33);
     println!("{}",er);
+
+    enum SpreadsheetCell {
+        Int(i32),
+        Float(f64),
+        Text(String),
+    }
+    
+    let row = vec![
+        SpreadsheetCell::Int(3),
+        SpreadsheetCell::Text(String::from("blau")),
+        SpreadsheetCell::Float(10.12),
+    ];
+
 }

@@ -11,5 +11,14 @@ for (i, &xxx) in xx.iter().enumerate(){
     
     println!("{}","sdfgh".to_string())
 }
-
+let v = vec!("aloha", "samba","coltronw","silversee");
+for i in &v{
+    println!("{}",i);
+}
+for name in v.iter(){
+    match name{
+        &"silversee" => println!("asdfrgtzhu"),
+        _ => println!("Hello {}", name),
+    }
+}
 }}
