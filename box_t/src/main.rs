@@ -20,4 +20,19 @@ fn main() {
     }
   };
   println!("end {}",counter);
+
+  println!("Größe eines Zeichens: {}", std::mem::size_of::<char>());
+  println!("Größe von a: {}", "a".len());
+  println!("Größe von ß: {}", "ß".len());
+  println!("Size of国: {}", "国".len());
+  println!("Größe von 𓅱 : {}", "𓅱".len());
+  println!("{:?}", "a".as_bytes());
+    println!("{:?}", "ß".as_bytes());
+    println!("{:?}", "国".as_bytes());
+    println!("{:?}", "𓅱".as_bytes());
+ let bu = {
+ struct User  { name: "Mr. User", user_number: 101 }
+    
+  };
+  println!("{:?}",bu);
 }
